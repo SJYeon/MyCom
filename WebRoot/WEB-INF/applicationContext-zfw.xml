@@ -64,6 +64,13 @@
 				<value>com.mycom.bean.Proxyshpcart</value>
 				<value>com.mycom.bean.Ads</value></list>
 		</property></bean>
-		<import resource="applicationContext-zfw.xml"/>
-		
+		<!-- 用户模块 注入 -->
+		<bean id="userdao" class="com.mycom.dao.impl.UserDaoImpl">
+			<property name="sessionFactory">
+				<ref local="sessionFactory"/>
+			</property>
+		</bean>
+		<bean id="userser" class="com.mycom.service.impl.UserServiceImpl"></bean>
+		<bean id="useraction" class="com.mycom.action.UserAction"></bean>
+
 		</beans>
