@@ -51,4 +51,23 @@ public class UserServiceImpl implements IUserService {
 		this.userdao = userdao;
 	}
 
+	@Override
+	public int login(User user) {
+		// TODO Auto-generated method stub
+		User result = userdao.getUserByPhone(user.getPhone());
+		int userid = result.getId();
+		
+		try {
+			String MD5_loginpassword =   MD5.md5(user.getPassword());
+			return result.getPassword().equals(MD5_loginpassword)?userid:-1;
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return -1;
+	}
+
 }

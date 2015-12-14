@@ -15,4 +15,9 @@ public interface IUserDao {
 	 * @return
 	 */
 	public boolean addUser(User user);
+	/**
+	 * 通过用户电话号码查找用户
+	 * @return
+	 */
+	public User getUserByPhone(String phone);
 }

@@ -2,6 +2,8 @@ package com.mycom.action;
 
 import javax.annotation.Resource;
 
+import org.apache.struts2.ServletActionContext;
+
 import com.mycom.bean.User;
 import com.mycom.service.IUserService;
 
@@ -14,14 +16,37 @@ public class UserAction {
 	private IUserService userser;
 	
 	public String register(){
+		//查找邀请人信息
 		User inviter = userser.getUserById(inviterid);
+		//判断是否有邀请人
 		if(inviter != null){
+			//将邀请人插入用户信息中
 			user.setUser(inviter);
 		}
+		String pwd = user.getPassword();
+		//添加用户
 		boolean result = userser.addUser(user);
-		return result?"success":"error";
+		if(result){
+			user.setPassword(pwd);
+			int userid = userser.login(user);
+			if(userid != -1){
+				ServletActionContext.getRequest().getSession().setAttribute("userid", userid);
+				return "success";
+			}
+		}
+		return "error";
 	}
-
+	
+	public String login(){
+		//登录用户
+		int userid = userser.login(user);
+		if(userid != -1){
+			ServletActionContext.getRequest().getSession().setAttribute("userid", userid);
+			return "success";
+		}
+		return "error";
+		
+	}
 	public User getUser() {
 		return user;
 	}

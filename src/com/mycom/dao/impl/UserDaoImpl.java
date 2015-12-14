@@ -14,7 +14,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
 		// TODO Auto-generated method stub
 		
 		Object[] args = {id};
-		List<User> list = this.getHibernateTemplate().find("from com.mycom.bean.User where id=?", args);
+		List<User> list = this.getHibernateTemplate().find("from com.mycom.bean.User where id=? and del=0", args);
 		if(list.size()>0){
 			return list.get(0);
 		}
@@ -32,6 +32,17 @@ public class UserDaoImpl extends HibernateDaoSupport implements IUserDao {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public User getUserByPhone(String phone) {
+		// TODO Auto-generated method stub
+		Object[] args = {phone};
+		List<User> list = this.getHibernateTemplate().find("from com.mycom.bean.User where phone=? and del=0", args);
+		if(list.size()>0){
+			return list.get(0);
+		}
+		return null;
 	}
 
 }
